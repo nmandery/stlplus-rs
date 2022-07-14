@@ -4,10 +4,12 @@ on:
   pull_request:
     branches:
       - master
+      - main
   release:
     types: [created]
   push:
     branches:
+      - main
       - master
   schedule:
     - cron: "20 23 * * 4"
