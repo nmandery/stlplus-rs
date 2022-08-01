@@ -161,6 +161,10 @@ where
     if times.len() != n {
         return Err(Error::InputSlicesDifferingLength);
     }
+    if n < (options.num_obs_per_period * 2) {
+        return Err(Error::InputSliceToFewObs);
+    }
+
     let times_i64: Vec<i64> = times.iter().map(|t| t.as_()).collect();
 
     let validated_options = validate_options(options, n)?;
@@ -187,7 +191,11 @@ where
         let mut cs2 = Vec::with_capacity(validated_options.num_obs_per_period);
         for i in 0..validated_options.num_obs_per_period {
             cs1.push(cycle_sub_indices[i]);
-            cs2.push(cycle_sub_indices[values.len() - validated_options.num_obs_per_period + i]);
+            cs2.push(
+                cycle_sub_indices[values
+                    .len()
+                    .saturating_sub(validated_options.num_obs_per_period + i)],
+            );
         }
         (cs1, cs2)
     };
@@ -553,5 +561,17 @@ mod tests {
         };
         // should not cause out-of-bounds panic
         stl_decompose(&input, &options).unwrap();
+    }
+
+    /// https://github.com/nmandery/stlplus-rs/issues/1
+    #[test]
+    fn input_too_short() {
+        let input = vec![0.0f32; 25];
+        let options = STLOptions {
+            num_obs_per_period: 365,
+            ..Default::default()
+        };
+        // should not cause out-of-bounds panic
+        assert!(stl_decompose(&input, &options).is_err());
     }
 }

@@ -26,4 +26,7 @@ pub enum Error {
     // InvalidNumberOfDataPoints,
     #[error("unexpected 0 encountered")]
     UnexpectedZero,
+
+    #[error("input slice contains to few observations - must be more than two periods")]
+    InputSliceToFewObs,
 }
