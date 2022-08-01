@@ -177,7 +177,7 @@ where
         .collect();
     let weights = vec![VALUE::one(); n];
     let mut detrend = vec![VALUE::zero(); n];
-    // todo: missing stuff from java impl
+    // todo: missing stuff from java impl?
 
     let mut cycle_sub = Vec::with_capacity(
         (n as f64 / validated_options.num_obs_per_period as f64).ceil() as usize / 2,
@@ -299,39 +299,39 @@ where
 
 struct Ev {
     n: usize,
-    array_len: usize,
+    array_min_len: usize,
     storage_vec: Vec<usize>,
 }
 
 impl Ev {
     fn new(n: usize, jump: usize) -> Self {
-        let array_len = (n as f64 / jump as f64).ceil() as usize;
-        let mut storage_vec = vec![0usize; array_len + 1];
+        let array_min_len = (n as f64 / jump as f64).ceil() as usize;
+        let mut storage_vec = vec![0usize; array_min_len + 1];
 
         let mut i = 0;
         let mut j = 0;
-        while i < array_len {
+        while i < array_min_len {
             storage_vec[i] = j + 1;
             i += 1;
             j += jump
         }
 
         // always have the last element == n
-        storage_vec[array_len] = n;
+        storage_vec[array_min_len] = n;
 
         Self {
             n,
-            array_len,
+            array_min_len,
             storage_vec,
         }
     }
 
     /// return a slice where the last element == `n`
     fn as_slice(&self) -> &[usize] {
-        if self.storage_vec[self.array_len] == self.n {
-            &self.storage_vec[0..self.array_len]
-        } else {
+        if self.storage_vec[self.array_min_len - 1] != self.n {
             &self.storage_vec
+        } else {
+            &self.storage_vec[0..self.array_min_len]
         }
     }
 }
@@ -535,6 +535,7 @@ where
 
 #[cfg(test)]
 mod tests {
+    use crate::{stl_decompose, STLOptions};
 
     #[test]
     fn c_ma() {
@@ -542,5 +543,17 @@ mod tests {
         let n_p = 3;
         let out = super::cycle_subseries_moving_averages(&input, n_p);
         dbg!(out);
+    }
+
+    /// https://github.com/nmandery/stlplus-rs/issues/1
+    #[test]
+    fn indexing_within_bounds() {
+        let input = vec![0.0f32; 2581];
+        let options = STLOptions {
+            num_obs_per_period: 365,
+            ..Default::default()
+        };
+        // should not cause out-of-bounds panic
+        stl_decompose(&input, &options).unwrap();
     }
 }
