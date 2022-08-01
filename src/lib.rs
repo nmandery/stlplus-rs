@@ -1,5 +1,3 @@
-#[cfg(feature = "arrow2")]
-pub mod arrow;
 pub mod error;
 mod loess;
 mod util;
