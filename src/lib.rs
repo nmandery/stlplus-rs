@@ -50,6 +50,7 @@ impl_tryfrom_int_for_degree!(i8, i16, i32, i64, i128, isize, u8, u16, u32, u64, 
 
 ///
 /// Comments are still from the original R implementation and Java port.
+#[derive(Clone)]
 pub struct STLOptions {
     /// The number of observations in each cycle of the seasonal component, n_p
     pub num_obs_per_period: usize,
@@ -209,8 +210,8 @@ where
     let c_start_idx = validated_options.num_obs_per_period;
     let c_end_idx = n - 1 + validated_options.num_obs_per_period;
 
-    for _outer_iteration_i in 1..=options.number_of_robustness_iterations {
-        for _inner_iteration_i in 1..=options.number_of_inner_loop_passes {
+    for _outer_iteration_i in 0..options.number_of_robustness_iterations {
+        for _inner_iteration_i in 0..options.number_of_inner_loop_passes {
             // Step 1: detrending
             izip!(detrend.iter_mut(), values.iter(), trend.iter()).for_each(|(dt, v, t)| {
                 *dt = *v - *t;
