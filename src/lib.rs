@@ -22,8 +22,8 @@ impl Degree {
     fn coef_index(&self) -> usize {
         match self {
             Degree::Degree0 => 0,
-            Degree::Degree1 => 1,
-            Degree::Degree2 => 2,
+            Degree::Degree1 => 0,
+            Degree::Degree2 => 1,
         }
     }
 }
