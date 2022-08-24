@@ -62,6 +62,7 @@ where
 
         chart
             .configure_mesh()
+            .disable_mesh()
             .y_desc(*title)
             .x_desc("Time step")
             .draw()
