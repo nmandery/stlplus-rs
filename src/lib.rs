@@ -318,13 +318,13 @@ impl Ev {
         let mut i = 0;
         let mut j = 0;
         while i < array_min_len {
-            storage_vec[i] = j + 1;
+            storage_vec[i] = j;
             i += 1;
             j += jump
         }
 
-        // always have the last element == n
-        storage_vec[array_min_len] = n;
+        // always have the last element == (n - 1)
+        storage_vec[array_min_len] = n - 1;
 
         Self {
             n,
@@ -335,7 +335,7 @@ impl Ev {
 
     /// return a slice where the last element == `n`
     fn as_slice(&self) -> &[usize] {
-        if self.storage_vec[self.array_min_len - 1] != self.n {
+        if self.storage_vec[self.array_min_len - 1] != self.n - 1 {
             &self.storage_vec
         } else {
             &self.storage_vec[0..self.array_min_len]
