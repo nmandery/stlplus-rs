@@ -506,14 +506,14 @@ where
         ma[i - num_obs_per_period + 1] = ma_tmp / num_obs_per_period.as_();
     }
 
-    ma_tmp = (&ma[0..num_obs_per_period]).sum_agg();
+    ma_tmp = (ma[0..num_obs_per_period]).sum_agg();
     ma2[0] = ma_tmp / num_obs_per_period.as_();
     for i in num_obs_per_period..(nn + num_obs_per_period + 1) {
         ma_tmp = ma_tmp - ma[i - num_obs_per_period] + ma[i];
         ma2[i - num_obs_per_period + 1] = ma_tmp / num_obs_per_period.as_();
     }
 
-    ma_tmp = (&ma2[0..3]).sum_agg();
+    ma_tmp = (ma2[0..3]).sum_agg();
     ans[0] = ma_tmp / 3usize.as_();
     for i in 3..(nn + 2) {
         ma_tmp = ma_tmp - ma2[i - 3] + ma2[i];
