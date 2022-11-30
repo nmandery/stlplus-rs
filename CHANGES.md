@@ -1,6 +1,7 @@
 # Changes
 
 ## Unreleased
+* Dependency upgrades: criterion 0.3 -> 0.4
 
 ## 0.1.2
 * Fix for degree offset in t_window calculation.
