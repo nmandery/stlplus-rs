@@ -179,8 +179,8 @@ where
 
     let mut max_dist = vec![0usize; m.len()];
     izip!(max_dist.iter_mut(), m.iter().enumerate()).for_each(|(max_dist_value, (i, m_value))| {
-        let aa = (*m_value as i64 - x[l_idx[i]] as i64).unsigned_abs() as usize;
-        let bb = (x[r_idx[i]] as i64 - *m_value as i64) as usize;
+        let aa = (*m_value as i64 - x[l_idx[i]]).unsigned_abs() as usize;
+        let bb = (x[r_idx[i]] - *m_value as i64) as usize;
         *max_dist_value = aa.max(bb);
     });
 
