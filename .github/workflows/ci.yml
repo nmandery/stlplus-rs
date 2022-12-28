@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Install latest stable
         uses: actions-rs/toolchain@v1
@@ -40,13 +40,13 @@ jobs:
           args: --all-targets
 
       - name: Test with cargo - default features
-        uses: actions-rs/cargo@v1.0.1
+        uses: actions-rs/cargo@v1
         with:
           command: test
           toolchain: stable
 
       - name: Test with cargo - all features
-        uses: actions-rs/cargo@v1.0.1
+        uses: actions-rs/cargo@v1
         with:
           command: test
           toolchain: stable
