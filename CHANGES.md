@@ -1,6 +1,8 @@
 # Changes
 
 ## Unreleased
+
+## 0.1.3
 * Dependency upgrades: criterion 0.3 -> 0.5, itertools 0.10 -> 0.11
 
 ## 0.1.2
