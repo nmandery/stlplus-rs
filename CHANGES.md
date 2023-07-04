@@ -1,7 +1,7 @@
 # Changes
 
 ## Unreleased
-* Dependency upgrades: criterion 0.3 -> 0.4
+* Dependency upgrades: criterion 0.3 -> 0.5, itertools 0.10 -> 0.11
 
 ## 0.1.2
 * Fix for degree offset in t_window calculation.
